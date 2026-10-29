@@ -1,0 +1,6 @@
+{
+  "name": "SafeDrop PK - Privacy Locker Network",
+  "description": "Automated privacy-based parcel locker delivery system in Pakistan. Protecting customer home addresses and phone numbers through automated locker hubs, role-segregated workflows, and 48-hour pickup QR tokens.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

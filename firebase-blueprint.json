@@ -1,0 +1,165 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with role-based attributes and privacy settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["customer", "seller", "rider", "admin"] },
+        "phone": { "type": "string", "maxLength": 20 },
+        "address": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "role", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Demo shop apparel and footwear catalog item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "sellerId": { "type": "string", "maxLength": 128 },
+        "sellerName": { "type": "string", "maxLength": 100 },
+        "name": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "enum": ["shoes", "clothing"] },
+        "price": { "type": "number" },
+        "sizes": { "type": "array" },
+        "stock": { "type": "number" },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["active", "out_of_stock", "archived"] }
+      },
+      "required": ["id", "sellerId", "name", "category", "price", "stock", "imageUrl"]
+    },
+    "LockerHub": {
+      "title": "LockerHub",
+      "description": "Physical smart automated parcel locker terminal station in Karachi",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "area": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 250 },
+        "operatingHours": { "type": "string", "maxLength": 50 },
+        "totalCompartments": { "type": "number" },
+        "availableCompartments": { "type": "number" },
+        "status": { "type": "string", "enum": ["online", "maintenance", "offline"] },
+        "coordinates": { "type": "object" }
+      },
+      "required": ["id", "name", "area", "address", "totalCompartments", "status"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Privacy-protected locker delivery order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerPhone": { "type": "string", "maxLength": 20 },
+        "sellerId": { "type": "string", "maxLength": 128 },
+        "riderId": { "type": "string", "maxLength": 128 },
+        "items": { "type": "array" },
+        "itemPrice": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "lockerFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "primaryHubId": { "type": "string", "maxLength": 64 },
+        "alternativeHubId": { "type": "string", "maxLength": 64 },
+        "assignedHubId": { "type": "string", "maxLength": 64 },
+        "compartmentId": { "type": "string", "maxLength": 32 },
+        "compartmentCode": { "type": "string", "maxLength": 32 },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ORDER_PLACED",
+            "SELLER_ACCEPTED",
+            "PREPARING_PARCEL",
+            "READY_FOR_DISPATCH",
+            "AWAITING_RIDER",
+            "IN_TRANSIT",
+            "PARCEL_DEPOSITED",
+            "PAYMENT_PENDING",
+            "READY_FOR_PICKUP",
+            "COLLECTED",
+            "CANCELLED",
+            "EXPIRED_PICKUP",
+            "RETURN_REQUESTED",
+            "RETURNED"
+          ]
+        },
+        "paymentTiming": { "type": "string", "enum": ["UPFRONT", "AFTER_DEPOSIT"] },
+        "paymentStatus": { "type": "string", "enum": ["PENDING", "PAID", "FAILED"] },
+        "paymentMethod": { "type": "string", "enum": ["DEMO_CARD", "DEMO_WALLET"] },
+        "pickupToken": { "type": "string", "maxLength": 256 },
+        "pickupTokenExpiresAt": { "type": "string", "format": "date-time" },
+        "pickupTokenUsed": { "type": "boolean" },
+        "dispatchMethod": { "type": "string", "enum": ["RIDER_PICKUP", "SELLER_DROPOFF"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "customerId", "sellerId", "itemPrice", "deliveryFee", "lockerFee", "totalAmount", "primaryHubId", "alternativeHubId", "status", "paymentTiming", "paymentStatus", "createdAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer complaints and return requests",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "orderId": { "type": "string", "maxLength": 64 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["COMPLAINT", "RETURN"] },
+        "reason": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["OPEN", "INVESTIGATING", "APPROVED", "REJECTED", "RESOLVED"] },
+        "adminNotes": { "type": "string", "maxLength": 1000 },
+        "simulatedRefundAmount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "orderId", "customerId", "type", "reason", "description", "status", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "System event and security audit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "actorId": { "type": "string", "maxLength": 128 },
+        "actorRole": { "type": "string", "maxLength": 30 },
+        "action": { "type": "string", "maxLength": 100 },
+        "details": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "actorId", "actorRole", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User accounts with roles (customer, seller, rider, admin)"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Demo marketplace product listings"
+    },
+    "/hubs/{hubId}": {
+      "schema": "LockerHub",
+      "description": "Smart automated parcel locker hub stations"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "All locker parcel orders and workflows"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "SupportTicket",
+      "description": "Customer complaints and return cases"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Audit trail for critical logistics operations"
+    }
+  }
+}
